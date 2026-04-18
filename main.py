@@ -1,0 +1,71 @@
+from src.core import *
+from src.parameters import *
+from src.utils import *
+
+import numpy as np
+
+print("\n Iniciando o programa de distribuição de velocidades de Maxwell-Boltzmann \n")
+print("-" * 100)
+
+try:
+    vectorX = []
+    vectorY = []
+
+    for i in range(0, int(VELOCIDADE_MAXIMA_DE_OUTPUT), int(STEPS)):
+        vectorX.append(i)
+        vectorY.append(MaxwellBoltzmann(i))
+
+    v_mp = V_MaisProvavel(T, M)
+    v_avg = V_Media(T, M)
+    V_rms = V_RMS(T, M)
+
+    breakp = 0
+    print("\n Pontos do gráfico gerados com sucesso! \n")
+    print("-" * 100)
+except:
+    breakp = 1
+    print(
+        "\n Houve um erro na geração dos pontos do gráfico. Verifique os parâmetros de entrada e tente novamente. \n"
+    )
+    print("-" * 100)
+
+if breakp == 0:
+    try:
+        print("\n Salvando os dados gerados da distribuição de velocidades... \n")
+        print("-" * 100)
+
+        data = np.column_stack((vectorX, vectorY))
+
+        header_text = (
+            "Descripiton: Distribuicao da Velocidades de Maxwell-Boltzmann\n"
+            "Author: Victor Moreira Acacio \n"
+            "\n"
+            "Equation: 4 * pi * (M / (2 * pi * R * T))^(3/2) * v^2 * exp(-M * v^2 / (2 * R * T))\n"
+            f"Domain: v em [0, {VELOCIDADE_MAXIMA_DE_OUTPUT}]\n"
+            "Units: v [m/s], f(v) [s/m] \n"
+            "\n"
+            f"Temperature: {T} K\n"
+            f"Most Probable Velocity (v_mp): {v_mp:.2f} m/s\n"
+            f"Mean Velocity (v_avg): {v_avg:.2f} m/s \n"
+            f"Root Mean Square Velocity (V_rms): {V_rms:.2f} m/s \n"
+            "\n"
+            "v,f(v)"
+        )
+
+        np.savetxt(
+            "data/dados.txt",
+            data,
+            fmt="%.6f",
+            delimiter=",",
+            header=header_text,
+            comments="# ",
+        )
+
+        print("\n Arquivo 'dados.txt' gerado com sucesso! \n")
+        print("-" * 100)
+    except:
+        print("\n Houve um erro ao salvar os dados. \n")
+        print("-" * 100)
+
+print("\n Distribuição de Velocidades de Maxwell-Boltzmann FINALIZADA! \n")
+print("-" * 100)
