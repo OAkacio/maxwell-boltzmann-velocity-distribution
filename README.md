@@ -44,6 +44,10 @@ Run the R script to process the generated `.txt` data and export the standardize
 Rscript plot_main.R
 ```
 
+![Maxwell-Boltzmann Plot Example](figures/maxwell_boltzmann_plot.png)
+
+**Note:** To change the macroscopic variables such as Temperature ($T$) and Molar Mass ($M$), edit the parameters inside `src/parameters.py` before running the integration engine.
+
 ## Theoretical Background
 
 The mathematical foundation of this routine is based on the classical kinetic theory of gases. The code calculates the following physical quantities:
